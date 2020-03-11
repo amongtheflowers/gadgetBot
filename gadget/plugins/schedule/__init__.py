@@ -26,7 +26,6 @@ async def get_bd_token():
     response = await requests.post(token_url, data=data, headers=headers)
     response = response.json()
     await requests.aclose()
-    print(response)
     key = response['access_token']
     if key:
         RCNBOT.config.BD_TOKEN = key
@@ -87,3 +86,5 @@ async def live_status_close():
             status = await get_live_status(item['roomid'])
             if status != 1 and len(LIVE_OPEN) > 0:
                 LIVE_OPEN.remove(item['roomid'])
+
+

@@ -6,6 +6,7 @@ import nonebot as nb
 import config
 import os
 from nonebot import logger
+
 logger.name = 'rcnb'
 
 if __name__ == '__main__':

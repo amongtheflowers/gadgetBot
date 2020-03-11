@@ -3,6 +3,8 @@
 
 [nonebot]: https://github.com/richardchien/nonebot
 
+#only 分支仅限个人使用
+
 ## 目前功能
 1. 获取bilibili视频封面图片
 2. 剑网3科举题

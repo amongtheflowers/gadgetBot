@@ -8,6 +8,7 @@ from .schedule import get_bd_token
 import asyncio
 from .bilibili.live_subscription import read_subscription_info
 from .game.fives import load_title
+from .jx3.serendipity import get_serendipity
 
 init_loop = asyncio.get_event_loop().run_until_complete
 
@@ -19,3 +20,8 @@ init_loop(read_subscription_info())
 
 # 加载5S游戏题库
 init_loop(load_title())
+
+# 初始化奇遇获取和发送
+init_loop(get_serendipity(True))
+
+
