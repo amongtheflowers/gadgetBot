@@ -29,12 +29,6 @@
 2. 签到
 3. 。。。
 
-## 引用
-#### aio.requests 和 untils.fs 源码使用的是[aki]奶茶的源码(RCNB)
-
-[aki]: https://github.com/cczu-osa/aki/tree/master/aki
-
-
 
 ## 聊天跟语音合成说明
 智能聊天使用的是[腾讯ai开放平台]的接口,使用QQ登陆创建一个应用，接入智能闲聊能力，拿到的appid跟appkey填入config.py.
