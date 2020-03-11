@@ -8,7 +8,7 @@ from base64 import b64encode
 import nonebot as rcnb
 from nonebot.command.argfilter.extractors import extract_image_urls
 
-from gadget.aio import requests
+import httpx
 from . import other
 
 rcnbot = rcnb.get_bot()
@@ -27,7 +27,9 @@ async def checkip(qzonetoken, g_tk, home_page):
         'format': 'fs',
         'qzreferrer': home_page
     }
-    ret = await requests.post(check_url, data)
+    requests = httpx.AsyncClient()
+    ret = await requests.post(check_url, data=data)
+    await requests.aclose()
 
 
 async def upload_img(qzonetoken, g_tk, p_skey, img, self_id, skey, headers):
@@ -63,8 +65,10 @@ async def upload_img(qzonetoken, g_tk, p_skey, img, self_id, skey, headers):
     img_heders['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
     img_heders['Sec-Fetch-Mode'] = 'cors'
     img_heders['Origin'] = 'https://user.qzone.qq.com'
+    requests = httpx.AsyncClient()
     img_result = await requests.post(up_url, data=data, headers=headers)
-    img_result = await img_result.text
+    img_result = img_result.text
+    await requests.aclose()
     json_str = img_result.split('frameElement.callback(')[-1].split(');</sc')[0]
     img_data = json.loads(json_str)
     pic_bo = img_data['data']['url'].split('&bo=')[-1]
@@ -80,7 +84,6 @@ async def upload_img(qzonetoken, g_tk, p_skey, img, self_id, skey, headers):
 async def _(session: rcnb.CommandSession):
     # 获取所在qq号cookies
     cookie_ret = await session.bot.get_cookies(domain='qzone.qq.com')
-    print(cookie_ret, type(cookie_ret))
     cookie_ret = cookie_ret['cookies']
     # 空间主页连接
     self_id = session.ctx['self_id']
@@ -98,8 +101,10 @@ async def _(session: rcnb.CommandSession):
     # 建立请求头
 
     # 获取token
+    requests = httpx.AsyncClient()
     a = await requests.get(home_page, headers=headers)
-    a = await a.text
+    await requests.aclose()
+    a = a.text
     qzone_toekn = a.split('window.g_qzonetoken = (function(){ try{return "')[-1].split('";}')[0]
 
     # 提取图片连接
@@ -110,8 +115,10 @@ async def _(session: rcnb.CommandSession):
         # 上传图片
         for img_index, img_url in enumerate(urls_list):
             # 读取图片转换base64
+            requests = httpx.AsyncClient()
             img_ret = await requests.get(img_url)
-            img_base64 = b64encode(await img_ret.content).decode()
+            await requests.aclose()
+            img_base64 = b64encode(img_ret.content).decode()
             if not img_base64:
                 await session.finish(f'第{img_index+1}张图片上传失败换一张吧')
                 return
@@ -167,8 +174,10 @@ async def _(session: rcnb.CommandSession):
     await checkip(qzone_toekn, g_tk, headers['Referer'])
     retry = 0
     while retry < 4:
+        requests = httpx.AsyncClient()
         result = await requests.post(send_api, data=total_data, headers=headers)
-        if await result.text and '不是有效链接' not in await result.text:
+        await requests.aclose()
+        if result.text and '不是有效链接' not in result.text:
             await session.finish('发送完毕！')
             return
         retry += 1

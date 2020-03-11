@@ -47,6 +47,8 @@ class Chat(object):
         requests = httpx.AsyncClient()
         result = await requests.get(self.target_url, params=req_data)
         await requests.aclose()
+        result = result.json()
+        print(result)
         if result['ret'] == 0:
             return result['data']['answer']
         return '唔~~等会在跟你说'

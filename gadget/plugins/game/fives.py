@@ -276,14 +276,14 @@ async def personnel_handling(ctx):
     if len(survival):
         for user in survival:
             msg += f'[CQ:at,qq={user}]'
-        msg = random_msg(1) + msg + random_msg(2) + '\n'
+        msg = random_msg(1) + msg + random_msg(2)
         game_status[group_id]['allsurvival'].update(survival)
         game_status[group_id]['survival'].clear()
     if len(death):
         msg = msg.strip() + random_msg(3)
         for user in death:
             msg += f'[CQ:at,qq={user}]'
-        msg = msg + random_msg(4) + '\n'
+        msg = msg + random_msg(4)
         game_status[group_id]['alldeath'].update(death)
         game_status[group_id]['death'].clear()
     if not msg:

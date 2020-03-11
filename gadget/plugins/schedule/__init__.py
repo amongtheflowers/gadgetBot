@@ -26,6 +26,7 @@ async def get_bd_token():
     response = await requests.post(token_url, data=data, headers=headers)
     response = response.json()
     await requests.aclose()
+    print(response)
     key = response['access_token']
     if key:
         RCNBOT.config.BD_TOKEN = key

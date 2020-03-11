@@ -17,8 +17,8 @@ async def _(session: rcnb.CommandSession):
         await session.finish('科举使用方式:\n科举+空格+问题关键字\n科举 青岩')
         return
     question = args[0]
-    requests = httpx.AsyncClient()
-    result = await requests.get(f'https://jx3.derzh.com/exam/?m=1&q={question}&csrf=', verify=False)
+    requests = httpx.AsyncClient(verify=False)
+    result = await requests.get(f'https://jx3.derzh.com/exam/?m=1&q={question}&csrf=')
     await requests.aclose()
     result  = result.json()
     report_msg = ''
