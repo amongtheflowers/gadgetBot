@@ -33,3 +33,8 @@ async def _(session: rcnb.NLPSession):
             speak_type = None
         return rcnb.IntentCommand(90.0, ('other', 'speak'), {'text': msg_filter[0][1:], 'type': speak_type})
 
+speak_mode = ['妲己说','孙尚香说', '吕布说', '大小姐说']
+@rcnb.on_natural_language(speak_mode, only_to_me=False)
+async def _(session: rcnb.NLPSession):
+    pass
+    return
