@@ -23,7 +23,7 @@ async def say(session: rcnb.CommandSession):
     return
 
 
-@rcnb.on_natural_language(['说'], only_to_me=False)
+@rcnb.on_natural_language(['无法发送待修复'], only_to_me=False)
 async def _(session: rcnb.NLPSession):
     if session.msg_text.startswith('说'):
         msg_filter = session.msg_text.split(' ')
