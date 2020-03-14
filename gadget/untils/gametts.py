@@ -81,5 +81,13 @@ async def game_voice_tts(text, mode, speed='normal'):
         ret = response.json()
         if ret['base']['ret'] == 0:
             voice_url = ret['cmd_rsps']['NlpTts']['data']['voice_url']
-            return '[CQ:record,file=%s]' % voice_url
+            requests = httpx.AsyncClient()
+            response = await requests.get(voice_url)
+            await requests.aclose()
+            try:
+                mp3 = base64.b64encode(response.content)
+                report = str(mp3, encoding='utf-8')
+                return f'[CQ:record,file=base64://{report}]'
+            except:
+                return False
     return False
