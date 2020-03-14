@@ -31,13 +31,13 @@ serendipity_send_group = [1078637663]
 async def get_serendipity(first_run=False):
     global last_time
     global serendipity_status
-    redis = await aioredis.create_redis_pool(
+    redis = await aioredis.create_redis(
         'redis://127.0.0.1', db=3)
     token = await redis.randomkey()
     token = token.decode()
+
     await redis.delete(token)
-    redis.close()
-    await redis.wait_closed()
+    await redis.close()
     request_params['r'] = token
     client = httpx.AsyncClient(verify=False)
     response = await client.get(api_url, params=request_params)

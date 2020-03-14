@@ -23,7 +23,13 @@ async def get_bd_token():
         'Content-Type': 'application/json; charset=UTF-8'
     }
     requests = httpx.AsyncClient()
-    response = await requests.post(token_url, data=data, headers=headers)
+    while True:
+        try:
+            response = await requests.post(token_url, data=data, headers=headers)
+            break
+        except:
+            print('get baidu token error')
+            await asyncio.sleep(2)
     response = response.json()
     await requests.aclose()
     key = response['access_token']

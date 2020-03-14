@@ -10,3 +10,4 @@ __plugin_name = 'Game'
 game = rcnb.CommandGroup('game', only_to_me=False)
 
 from . import fives
+from . import answer
