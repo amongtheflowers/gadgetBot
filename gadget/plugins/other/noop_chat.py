@@ -3,7 +3,7 @@
 
 
 from . import other
-from gadget.untils.chat_txai import Chat
+from gadget.untils.chat import Chat
 import nonebot as rcnb
 
 
@@ -17,4 +17,5 @@ async def _(session: rcnb.CommandSession):
 
 @rcnb.on_natural_language()
 async def _(session: rcnb.NLPSession):
-    return rcnb.IntentCommand(60.0, ('other', 'chat'), {'msg': session.msg_text})
+    if session.ctx
+    #return rcnb.IntentCommand(60.0, ('other', 'chat'), {'msg': session.msg_text})
